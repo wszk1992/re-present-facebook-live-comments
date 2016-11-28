@@ -1,4 +1,4 @@
-var settings = [1,1,1];
+var settings = {};
 var comments_open = false;
 //Initialize Facebook API.
 window.fbAsyncInit = function() {
@@ -46,8 +46,8 @@ chrome.extension.onConnect.addListener(function(port) {
       chrome.tabs.executeScript(null, {file: "content_script.js", runAt: "document_end"});
     } else if(msg === "close") {
       comments_open = false;
-    } else if(Array.isArray(msg) && msg.length === settings.length) {
-			settings = msg.slice();
+    } else if(typeof(msg) === 'object') {
+			clone(msg);
 			console.log("settings updated");
 			port.postMessage("settings received");
 		} else {
@@ -56,6 +56,15 @@ chrome.extension.onConnect.addListener(function(port) {
 		}
 	});
 });
+
+function clone(msg) {
+  settings["fontsize"] = msg["fontsize"] || 50;
+  settings["transparency"] = msg["transparency"] || 50;
+  settings["speed"] = msg["speed"] || 50;
+  settings["filterComments"] = msg["filterComments"] || 50;
+  settings["fontstyle"] = msg["fontstyle"] || "Aril";
+  settings["position"] = msg["position"] || "top";
+}
 
 
 var maxCount = 20;

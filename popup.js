@@ -1,4 +1,4 @@
-var settings = [0,0,0];
+var settings = {};
 
 var port = chrome.extension.connect({
       name: "Communication between backgound and popup"
@@ -7,37 +7,68 @@ var port = chrome.extension.connect({
 port.postMessage("request settings");
 port.onMessage.addListener(function(msg) {
   console.log("message recieved: " + msg);
-  if(typeof(msg) === "boolean") {
+  console.log(typeof(msg));
+  if(typeof(msg) === 'boolean') {
     document.getElementById("checkbox").checked = msg;
-  }
-  if(Array.isArray(msg) && msg.length === settings.length) {
-    settings = msg.slice();
+  } else if(typeof(msg) === 'object') {
+    clone(msg);
+  } else if(typeof(msg) === 'string') {
+    console.log(msg);
   } else {
     console.log("cannot detect the message");
   }
 });
 
 
-document.getElementById("button").addEventListener("click", function() {
-	port.postMessage(settings);
+// document.getElementById("button").addEventListener("click", function() {
+// 	port.postMessage(settings);
+// });
+
+function clone(msg) {
+  settings["fontsize"] = msg["fontsize"] || 50;
+  settings["transparency"] = msg["transparency"] || 50;
+  settings["speed"] = msg["speed"] || 50;
+  settings["filterComments"] = msg["filterComments"] || 50;
+  settings["fontstyle"] = msg["fontstyle"] || "Aril";
+  settings["position"] = msg["position"] || "top";
+}
+
+$("#checkbox").change(function() {
+  if ($(this).is(':checked')) {
+    port.postMessage("open");
+  } else {
+    port.postMessage("close");
+  }
 });
 
-
-
-document.getElementById("checkbox").addEventListener("click", function() {
-	var checkbox = document.getElementById("checkbox");
-	if(checkbox.checked) {
-		port.postMessage("open");
-	} else {
-		port.postMessage("close");
-	}
+$("#fontsizebar").change(function() {
+  settings["fontsize"] = parseInt($(this).value);
 });
 
-setTimeout(displaySettings, 20);
+$("#transparencybar").change(function() {
+  settings["transparency"] = parseInt($(this).value);
+});
 
-function displaySettings() {
-  console.log(settings);
-  settings = [2,2,2];
+$("#speedbar").change(function() {
+  settings["speed"] = parseInt($(this).value);
+});
+
+$("#filtercommentsbar").change(function() {
+  settings["filterComments"] = parseInt($(this).value);
+});
+
+$("#fontStyleSelector").change(function() {
+  settings["fontstyle"] = parseInt($(this).value);
+});
+
+$("#fontStyleSelector").change(function() {
+  settings["fontstyle"] = parseInt($(this).value);
+});
+
+setTimeout(updateSettings, 100);
+
+function updateSettings() {
+  port.postMessage(settings);
 }
 
 

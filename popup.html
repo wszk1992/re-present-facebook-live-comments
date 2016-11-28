@@ -1,43 +1,85 @@
-<!doctype html>
-<!--
- This page is shown when the extension button is clicked, because the
- "browser_action" field in manifest.json contains the "default_popup" key with
- value "popup.html".
- -->
-<html>
-  <head>
-    <title>Getting Started Extension's Popup</title>
-    <style>
-      body {
-        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-        font-size: 100%;
-      }
-      #status {
-        /* avoid an excessively wide status text */
-        white-space: pre;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: 400px;
-      }
-    </style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bullet Screen Settings</title>
+    <link rel="stylesheet" href="./popup.css" type="text/css">
+	<link rel="stylesheet" href="./css/switch-buttons.css" type="text/css">
+	<link href="./css/bootstrap-toggle.min.css" rel="stylesheet">
+	<link href="./css/bootstrap.min.css" rel="stylesheet" >
+	<link href="./css/font-awesome.min.css" rel="stylesheet">
+</head>
 
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
-     -->
-  </head>
-  <body>
-    <div id="status"></div>
-    <h1> Hello World! </h1>
-    <div>
-      <button id="button">submit</button>
-    </div>
-    <div>
-      <input type="checkbox" id="checkbox">OPEN
-    </div>
-  </body>
-  <script src="popup.js"></script>
+<body>
+<div class="container">
+<table  width="350">
+	<tr>
+		<td class="checkbox">
+			Bullet Screen:
+    		<input id="checkbox" type="checkbox" data-toggle="toggle" data-style="ios" data-size="mini">
+		</td>
+	</tr>
+</table>
+
+<div class="settings">
+<p>Font Size</p>
+<p><input type="range" min="0" max="100" id="fontsizebar" /></p>
+<p>Transparency</p>
+<p><input type="range" min="0" max="100" id="transparencybar"/></p>
+<p>Speed</p>
+<p><input type="range" min="0" max="100" id="filtercommentsbar"/></p>
+<p>Filter Comments</p>
+<p><input type="range" min="0" max="100" id="speedbar"/></p>
+<p>Font Style</p>
+
+<select style="width:200px" id="fontStyleSelector">
+  <option value="Aril" style="font-family: 'Aril'">Aril</option>
+  <option value="Times New Roman" style="font-family: 'Times New Roman'">Times New Roman</option>
+  <option value="Comic San MS" style="font-family: 'Comic San MS'">Comic San MS</option>
+  <option value="Couteir New" style="font-family: 'Couteir New'">Couteir New</option>
+</select>
+
+<p>Pullet Position</p>
+<table>
+	<tr>
+		<td align="center">
+			<img src="./images/top.bmp" width="80px" alt="">
+		</td>	
+		<td align="center">
+			<img src="./images/bottom.bmp" width="80px"  alt="" >
+		</td>
+		<td align="center">
+			<img width="80px"  src="./images/fullscreen.bmp" alt=""> 
+		</td>
+	</tr>
+
+	<tr><!--这里是下一行-->
+		<td align="center">
+			top
+		</td>
+		<td align="center">
+			bottom
+		</td>
+		<td align="center">
+			fullscreen
+		</td>
+	</tr>
+</table>
+
+</div>
+</div>
+
+
+
+<style>
+  .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
+  .toggle.ios .toggle-handle { border-radius: 20px; }
+</style>
+
+<script src="./js/jquery-2.1.1.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap-toggle.min.js"></script>
+<script src="./popup.js"></script>
+</body>
 </html>
-
