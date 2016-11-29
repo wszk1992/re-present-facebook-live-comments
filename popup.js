@@ -39,7 +39,7 @@ function clone(msg) {
   $("#filtercommentsbar")[0].value = settings["filterComments"];
   $("#fontStyleSelector")[0].value = settings["fontstyle"];
   $("#img_" + settings["position"]).addClass('selected');
-  $("#checkbox")[0].checked = settings["status"];
+  $("#checkbox").bootstrapToggle(settings["status"] ? 'on' : 'off')
   document.getElementById("FontsizeValue").innerText ="Font Size: " + settings["fontsize"];
   document.getElementById("TransparencyValue").innerText ="Transparency: " + settings["transparency"];
   document.getElementById("SpeedValue").innerText ="Speed: " + settings["speed"];
