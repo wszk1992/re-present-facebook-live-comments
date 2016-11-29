@@ -1,12 +1,12 @@
 #HOW TO USE
 
-Download the folder and drag it to chrome extension page
-Enter a facebook live video page and click the extension button
-Set parameters in popup page and open the bullet screen by cilck the button in popup page
+Download the folder and drag it to chrome extension page    
+Enter a facebook live video page and click the extension button     
+Set parameters in popup page and open the bullet screen by cilck the button in popup page    
 
 
 
-Process:
+##Process:
 
 1. background.js
   * Initialize Facebook API.
