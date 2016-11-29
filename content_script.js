@@ -43,7 +43,6 @@ if(!document.getElementById("bulletScreen")) {
     document.body.insertBefore(div, null);
 }
 
-var xv = 1;
 var bulletScreen = document.getElementById("bulletScreen");
 bulletScreen.style = "position: absolute; z-index: 1000";
 
@@ -54,9 +53,9 @@ function move() {
       div.id = id;
       div.style.position = "absolute";
       div.style.color = "white";
-      div.style.fontSize = "20px";
-      div.style.fontFamily = "arial";
-      div.style.opacity = "0.8";
+      div.style.fontSize = queue[id]["settings"]["fontsize"] + "px";
+      div.style.fontFamily = queue[id]["settings"]["fontstyle"];
+      div.style.opacity = queue[id]["settings"]["transparency"] / 100.0;
       div.style["white-space"] = "nowrap";
       div.style.top = Math.floor(Math.random() * (height - div.clientHeight)) + "px";
       div.innerText = queue[id]["message"];
@@ -65,7 +64,7 @@ function move() {
 
     var div = document.getElementById(id);
     div.style.left = queue[id]["x"] + "px"; 
-    queue[id]["x"] += xv;
+    queue[id]["x"] += queue[id]["settings"]["speed"] / 10;
     if(queue[id]["x"] > width) {
       delete queue[id];
       div.remove();

@@ -25,14 +25,21 @@ port.onMessage.addListener(function(msg) {
 // });
 
 function clone(msg) {
-  settings["fontsize"] = msg["fontsize"] || 50;
-  settings["transparency"] = msg["transparency"] || 50;
-  settings["speed"] = msg["speed"] || 50;
-  settings["filterComments"] = msg["filterComments"] || 50;
-  settings["fontstyle"] = msg["fontstyle"] || "Aril";
-  settings["position"] = msg["position"] || "top";
+  settings["fontsize"] = msg["fontsize"] ? msg["fontsize"] : 50;
+  settings["transparency"] = msg["transparency"] ? msg["transparency"] : 50;
+  settings["speed"] = msg["speed"] ? msg["speed"] : 50;
+  settings["filterComments"] = msg["filterComments"] ? msg["filterComments"] : 50;
+  settings["fontstyle"] = msg["fontstyle"] ? msg["fontstyle"] : "Aril";
+  settings["position"] = msg["position"] ? msg["position"] : "top";
 }
-
+// function clone(msg) {
+//   settings["fontsize"] = msg["fontsize"];
+//   settings["transparency"] = msg["transparency"];
+//   settings["speed"] = msg["speed"];
+//   settings["filterComments"] = msg["filterComments"];
+//   settings["fontstyle"] = msg["fontstyle"];
+//   settings["position"] = msg["position"];
+// }
 $("#checkbox").change(function() {
   if ($(this).is(':checked')) {
     port.postMessage("open");
@@ -42,30 +49,27 @@ $("#checkbox").change(function() {
 });
 
 $("#fontsizebar").change(function() {
-  settings["fontsize"] = parseInt($(this).value);
+  settings["fontsize"] = parseInt($(this)[0].value);
 });
 
 $("#transparencybar").change(function() {
-  settings["transparency"] = parseInt($(this).value);
+  settings["transparency"] = parseInt($(this)[0].value);
 });
 
 $("#speedbar").change(function() {
-  settings["speed"] = parseInt($(this).value);
+  settings["speed"] = parseInt($(this)[0].value);
 });
 
 $("#filtercommentsbar").change(function() {
-  settings["filterComments"] = parseInt($(this).value);
+  settings["filterComments"] = parseInt($(this)[0].value);
 });
 
 $("#fontStyleSelector").change(function() {
-  settings["fontstyle"] = parseInt($(this).value);
+  settings["fontstyle"] = $(this)[0].value;
 });
 
-$("#fontStyleSelector").change(function() {
-  settings["fontstyle"] = parseInt($(this).value);
-});
 
-setTimeout(updateSettings, 100);
+setInterval(updateSettings, 100);
 
 function updateSettings() {
   port.postMessage(settings);

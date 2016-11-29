@@ -58,12 +58,12 @@ chrome.extension.onConnect.addListener(function(port) {
 });
 
 function clone(msg) {
-  settings["fontsize"] = msg["fontsize"] || 50;
-  settings["transparency"] = msg["transparency"] || 50;
-  settings["speed"] = msg["speed"] || 50;
-  settings["filterComments"] = msg["filterComments"] || 50;
-  settings["fontstyle"] = msg["fontstyle"] || "Aril";
-  settings["position"] = msg["position"] || "top";
+  settings["fontsize"] = msg["fontsize"] ? msg["fontsize"] : 50;
+  settings["transparency"] = msg["transparency"] ? msg["transparency"] : 50;
+  settings["speed"] = msg["speed"] ? msg["speed"] : 50;
+  settings["filterComments"] = msg["filterComments"] ? msg["filterComments"] : 50;
+  settings["fontstyle"] = msg["fontstyle"] ? msg["fontstyle"] : "Aril";
+  settings["position"] = msg["position"] ? msg["position"] : "top";
 }
 
 
