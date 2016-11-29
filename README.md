@@ -1,8 +1,8 @@
 #HOW TO USE
 
-Download the folder and drag it to chrome extension page    
-Enter a facebook live video page and click the extension button     
-Set parameters in popup page and open the bullet screen by cilck the button in popup page    
+1. Download the folder and drag it to chrome extension page    
+2. Enter a facebook live video page and click the extension button     
+3. Set parameters in popup page and open the bullet screen by cilck the button in popup page    
 
 
 
