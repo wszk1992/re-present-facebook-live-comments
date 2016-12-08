@@ -1,22 +1,25 @@
 {
   "manifest_version": 2,
-
-  "name": "test2",
-  "description": "test2",
-  "version": "1.0",
+  "version" : "1.2",
+  "name": "Facebook Live Bullet Screen 弹幕",
+  "description": "re-present-facebook-live-comments (Bullet Screen)",
   "content_security_policy": "script-src 'self' https://connect.facebook.net https://graph.facebook.com; object-src 'self'",
   "background": {
     "persistent": false,
     "page": "background.html",
     "script": "background.js"
   },
-    "browser_action": {
+  "browser_action": {
     "default_icon": "icon.png",
-    "default_title": "test2",
+    "default_title": "re-present-facebook-live",
     "default_popup": "popup.html" 
   },
   "permissions": [
     "tabs",
-    "https://*/*"
-  ]
+    "https://www.facebook.com/*"
+  ],
+  "icons" : {
+    "48" : "extension_icon_48x48.png",
+    "128" : "extension_icon_128x128.png"
+  }
 }

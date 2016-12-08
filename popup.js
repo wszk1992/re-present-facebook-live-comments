@@ -1,5 +1,5 @@
 var settings = {fontsize:50, transparency:50, speed:50, filterComments:50,
- fontstyle:"initial", position:"fullscreen"};
+ fontstyle:"initial", color:"#ffffff", position:"fullscreen"};
 
 var port = chrome.extension.connect({
       name: "Communication between backgound and popup"
@@ -27,24 +27,25 @@ port.onMessage.addListener(function(msg) {
 
 function clone(msg) {
   settings["fontsize"] = msg["fontsize"] ? msg["fontsize"] : 50;
-  settings["transparency"] = msg["transparency"] ? msg["transparency"] : 50;
+  settings["transparency"] = msg["transparency"] ? msg["transparency"] : 100;
   settings["speed"] = msg["speed"] ? msg["speed"] : 50;
-  settings["filterComments"] = msg["filterComments"] ? msg["filterComments"] : 50;
+  settings["filterComments"] = msg["filterComments"] ? msg["filterComments"] : 100;
   settings["fontstyle"] = msg["fontstyle"] ? msg["fontstyle"] : "initial";
   settings["position"] = msg["position"] ? msg["position"] : "fullscreen";
   settings["status"] = msg["status"] ? msg["status"] : false;
+  settings["color"] = msg["color"] ? msg["color"] : "#ffffff";
   $("#fontsizebar")[0].value = settings["fontsize"];
   $("#transparencybar")[0].value = settings["transparency"];
   $("#speedbar")[0].value = settings["speed"];
   $("#filtercommentsbar")[0].value = settings["filterComments"];
   $("#fontStyleSelector")[0].value = settings["fontstyle"];
   $("#img_" + settings["position"]).addClass('selected');
-  $("#checkbox").bootstrapToggle(settings["status"] ? 'on' : 'off')
+  $("#checkbox").bootstrapToggle(settings["status"] ? 'on' : 'off');
+  $("#colorbar")[0].value = settings["color"];
   document.getElementById("FontsizeValue").innerText ="Font Size: " + settings["fontsize"];
-  document.getElementById("TransparencyValue").innerText ="Transparency: " + settings["transparency"];
-  document.getElementById("SpeedValue").innerText ="Speed: " + settings["speed"];
-  document.getElementById("filterCommentsValue").innerText ="Filter Comments: " + settings["filterComments"];
-
+  document.getElementById("TransparencyValue").innerText ="Transparency: " + settings["transparency"] + "%";
+  document.getElementById("SpeedValue").innerText ="Speed: " + "x" + settings["speed"] / 50;
+  document.getElementById("filterCommentsValue").innerText ="Filter Comments: " + settings["filterComments"] + "%";
 }
 
 $("#checkbox").change(function() {
@@ -63,21 +64,25 @@ $("#fontsizebar").change(function() {
 
 $("#transparencybar").change(function() {
   settings["transparency"] = parseInt($(this)[0].value);
-  document.getElementById("TransparencyValue").innerText ="Transparency: " + settings["transparency"];
+  document.getElementById("TransparencyValue").innerText ="Transparency: " + settings["transparency"] + "%";
 });
 
 $("#speedbar").change(function() {
   settings["speed"] = parseInt($(this)[0].value);
-  document.getElementById("SpeedValue").innerText ="Speed: " + settings["speed"];
+  document.getElementById("SpeedValue").innerText ="Speed: " + "x" + settings["speed"] / 50 ;
 });
 
 $("#filtercommentsbar").change(function() {
   settings["filterComments"] = parseInt($(this)[0].value);
-  document.getElementById("filterCommentsValue").innerText ="Filter Comments: " + settings["filterComments"];
+  document.getElementById("filterCommentsValue").innerText ="Filter Comments: " + settings["filterComments"] + "%";
 });
 
 $("#fontStyleSelector").change(function() {
   settings["fontstyle"] = $(this)[0].value;
+});
+
+$("#colorbar").change(function() {
+  settings["color"] = $(this)[0].value;
 });
 
 $('img').click(function(){
@@ -85,7 +90,6 @@ $('img').click(function(){
   $(this).addClass('selected');
   settings["position"] = $(this)[0].id.slice(4);
 })
-
 
 setInterval(updateSettings, 100);
 

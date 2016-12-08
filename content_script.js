@@ -42,12 +42,30 @@ function saveComments(comments, settings) {
 if(!document.getElementById("bulletScreen")) {
     let div = document.createElement("div");
     div.id = "bulletScreen"; 
+    div.style.position = "absolute";
+    div["style"]["z-index"] = 1000;
     document.body.insertBefore(div, null);
+    //let videoParent = document.querySelector("._1kfp video").parentElement;
+    //videoParent.insertBefore(div, videoParent.childNodes[2]);
 }
 
 var bulletScreen = document.getElementById("bulletScreen");
-bulletScreen.style = "position: absolute; z-index: 1000";
 bulletScreen.innerHTML = "";
+
+// /mozfullscreenchange fullscreenchange
+
+document.querySelector("._1kfp ._53j5").addEventListener('webkitfullscreenchange', function(e) {
+  var state = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
+  console.log("webkitfullscreenchange");
+  var bullet = document.getElementById("bulletScreen");
+  if (state){
+  //do something when fullscreen on
+    document.querySelector("._1kfp ._53j5").appendChild(bullet);
+  } else {
+    document.body.appendChild(bullet)
+  }
+});
+
 
 function move() {
   for(var id in queue) {
@@ -60,8 +78,9 @@ function move() {
       div.style.fontFamily = queue[id]["settings"]["fontstyle"];
       div.style.opacity = queue[id]["settings"]["transparency"] / 100.0;
       div.style["white-space"] = "nowrap";
+      div.style.color = queue[id]["settings"]["color"];
       if(queue[id]["settings"]["position"] === "fullscreen") {
-        div.style.top = Math.floor(Math.random() * height - div.offsetHeight) + "px";
+        div.style.top = Math.floor(Math.random() * height - div["style"]["line-height"]) + "px";
       } else if(queue[id]["settings"]["position"] === "top") {
         div.style.top = Math.floor(Math.random() / 4 * height) + "px";
       } else {
@@ -73,7 +92,7 @@ function move() {
 
     var div = document.getElementById(id);
     div.style.left = queue[id]["x"] + "px"; 
-    queue[id]["x"] -= queue[id]["settings"]["speed"] / 10;
+    queue[id]["x"] -= queue[id]["settings"]["speed"] / 20;
     if(queue[id]["x"] < -width) {
       delete queue[id];
       div.remove();

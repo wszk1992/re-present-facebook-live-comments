@@ -12,11 +12,6 @@ window.fbAsyncInit = function() {
 
 };
 
-//Execute content_script.js on the page.
-// chrome.browserAction.onClicked.addListener(function(tab) {
-//   chrome.tabs.executeScript(null, {file: "content_script.js", runAt: "document_end"});
-// });
-
 //Waiting for receiving video_id from content_script.js.
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
@@ -32,6 +27,12 @@ chrome.runtime.onMessage.addListener(
   	}
   }
 );
+
+//Execute content_script.js on the page.
+chrome.tabs.onActivated.addListener(function() {
+  chrome.tabs.executeScript(null, {file: "content_script.js", runAt: "document_end"});
+});
+
 
 chrome.extension.onConnect.addListener(function(port) {
 	console.log("Connected with popup");
@@ -57,14 +58,17 @@ chrome.extension.onConnect.addListener(function(port) {
 	});
 });
 
+
+
 function clone(msg) {
   settings["fontsize"] = msg["fontsize"] ? msg["fontsize"] : 50;
-  settings["transparency"] = msg["transparency"] ? msg["transparency"] : 50;
+  settings["transparency"] = msg["transparency"] ? msg["transparency"] : 100;
   settings["speed"] = msg["speed"] ? msg["speed"] : 50;
-  settings["filterComments"] = msg["filterComments"] ? msg["filterComments"] : 50;
+  settings["filterComments"] = msg["filterComments"] ? msg["filterComments"] : 100;
   settings["fontstyle"] = msg["fontstyle"] ? msg["fontstyle"] : "initial";
   settings["position"] = msg["position"] ? msg["position"] : "fullscreen";
   settings["status"] = msg["status"] ? msg["status"] : false;
+  settings["color"] = msg["color"] ? msg["color"] : "#ffffff";
 }
 
 
