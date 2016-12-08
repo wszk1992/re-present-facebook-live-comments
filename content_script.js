@@ -19,6 +19,12 @@ chrome.runtime.onMessage.addListener(
   });
 
 var queue = {};
+var path = [];
+var pathNum = 10;
+for(var i = 0; i < pathNum; i++) {
+  path.push(0);
+}
+
 
 var width = window.innerWidth
 || document.documentElement.clientWidth
@@ -32,8 +38,17 @@ var height = window.innerHeight
 function saveComments(comments, settings) {
   for(var i = 0; i < comments.length; i++) {
     var x = width;
-    if(Math.random() * 100 < settings["filterComments"]) {
-      queue[comments[i]["id"]] = {message: comments[i]["message"], settings: settings, x: x};
+    var y;
+    if(settings["position"] == "fullscreen") {
+      y = firstAvailablePath(0, pathNum);
+    } else if(settings["position" == "top"]) {
+      y = firstAvailablePath(0, pathNum / 2 - 1);
+    } else {
+      y = firstAvailablePath(pathNum / 2 + 1, pathNum);
+    }
+    if(y != -1 && Math.random() * 100 < settings["filterComments"]) {
+      path[y] = 1;
+      queue[comments[i]["id"]] = {message: comments[i]["message"], settings: settings, x: x, y: y};
     }
   }
 }
@@ -78,26 +93,38 @@ function move() {
       div.style.fontFamily = queue[id]["settings"]["fontstyle"];
       div.style.opacity = queue[id]["settings"]["transparency"] / 100.0;
       div.style["white-space"] = "nowrap";
-      div.style.color = queue[id]["settings"]["color"];
-      if(queue[id]["settings"]["position"] === "fullscreen") {
-        div.style.top = Math.floor(Math.random() * height - div["style"]["line-height"]) + "px";
-      } else if(queue[id]["settings"]["position"] === "top") {
-        div.style.top = Math.floor(Math.random() / 4 * height) + "px";
-      } else {
-        div.style.top = Math.floor((Math.random() / 4 + 0.75) * height - div.offsetHeight) + "px";
-      }
+      div.style.color = queue[id]["settings"]["color"] == "0" ? getRandomColor() : queue[id]["settings"]["color"];
+      div.style.top = (queue[id]["y"] * height / pathNum) + "px";
       div.innerText = queue[id]["message"];
       bulletScreen.insertBefore(div, null);
     }
-
     var div = document.getElementById(id);
     div.style.left = queue[id]["x"] + "px"; 
     queue[id]["x"] -= queue[id]["settings"]["speed"] / 20;
     if(queue[id]["x"] < -width) {
+      path[queue[id]["y"]] = 0;
       delete queue[id];
       div.remove();
     }
   }
+}
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+function firstAvailablePath(start, end) {
+  for(var i = start; i < end; i++) {
+    if(path[i] == 0) {
+      return i;
+    }
+  }
+  return -1;
 }
 
 

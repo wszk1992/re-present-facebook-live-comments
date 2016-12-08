@@ -85,11 +85,15 @@ $("#colorbar").change(function() {
   settings["color"] = $(this)[0].value;
 });
 
+$("#colorfulmode").click(function() {
+  settings["color"] = "0";
+});
+
 $('img').click(function(){
   $('.selected').removeClass('selected');
   $(this).addClass('selected');
   settings["position"] = $(this)[0].id.slice(4);
-})
+});
 
 setInterval(updateSettings, 100);
 

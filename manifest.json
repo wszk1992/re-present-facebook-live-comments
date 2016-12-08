@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version" : "1.2",
+  "version" : "1.3",
   "name": "Facebook Live Bullet Screen 弹幕",
   "description": "re-present-facebook-live-comments (Bullet Screen)",
   "content_security_policy": "script-src 'self' https://connect.facebook.net https://graph.facebook.com; object-src 'self'",
